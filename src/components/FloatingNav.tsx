@@ -23,17 +23,20 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
   ];
 
   return (
-    <div className="fixed right-3 md:right-7 bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 z-40 flex md:flex-col items-center left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 w-max">
+    <nav
+      aria-label="Quick Navigation"
+      className="fixed bottom-3 sm:bottom-5 md:bottom-auto md:top-1/2 left-1/2 -translate-x-1/2 md:left-auto md:right-6 md:translate-x-0 md:-translate-y-1/2 z-50 w-max"
+    >
       {/* Dock Container */}
-      <div className="bg-[#04130c]/90 backdrop-blur-xl border border-[rgba(0,255,135,0.25)] rounded-full py-2 px-3 md:py-4 md:px-2.5 shadow-[0_0_30px_rgba(0,0,0,0.85),0_0_15px_rgba(0,255,135,0.2)] flex md:flex-col items-center gap-2 md:gap-3">
+      <div className="bg-[#03130c]/95 md:bg-[#03130c]/90 backdrop-blur-xl border border-[rgba(0,255,135,0.3)] rounded-full py-1.5 px-3 md:py-4 md:px-2.5 shadow-[0_4px_30px_rgba(0,0,0,0.9),0_0_15px_rgba(0,255,135,0.25)] flex flex-row md:flex-col items-center gap-1.5 sm:gap-2.5 md:gap-3">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
 
           return (
             <div key={item.id} className="relative group flex items-center">
-              {/* Tooltip on left */}
-              <div className="absolute right-12 px-3 py-1 bg-[#02130b] border border-[rgba(0,255,135,0.3)] text-[#a7f3d0] text-xs font-medium rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 transform translate-x-2 group-hover:translate-x-0 shadow-lg shadow-black/80">
+              {/* Tooltip on left (Desktop Only) */}
+              <div className="hidden md:block absolute right-12 px-3 py-1 bg-[#02130b] border border-[rgba(0,255,135,0.3)] text-[#a7f3d0] text-xs font-medium rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 transform translate-x-2 group-hover:translate-x-0 shadow-lg shadow-black/80">
                 {item.label}
               </div>
 
@@ -41,24 +44,24 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
               <button
                 onClick={() => onNavigate(item.id)}
                 aria-label={item.label}
-                className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                className={`relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                   isActive
                     ? item.isContact
                       ? 'bg-gradient-to-r from-emerald-500 to-[#00FF87] text-black shadow-[0_0_20px_#00FF87]'
                       : 'bg-[rgba(0,255,135,0.2)] text-[#00FF87] shadow-[0_0_15px_rgba(0,255,135,0.5)] border border-[#00FF87]'
                     : item.isContact
-                    ? 'bg-emerald-950/60 text-[#00FF87] hover:bg-emerald-600/30 border border-emerald-500/40 hover:scale-110'
+                    ? 'bg-emerald-950/70 text-[#00FF87] hover:bg-emerald-600/30 border border-emerald-500/40 hover:scale-110'
                     : 'text-zinc-400 hover:text-[#00FF87] hover:bg-[rgba(0,255,135,0.1)] hover:scale-110'
                 }`}
               >
-                <Icon size={18} strokeWidth={isActive ? 2.3 : 1.8} />
+                <Icon size={17} strokeWidth={isActive ? 2.3 : 1.8} className="sm:w-[18px] sm:h-[18px]" />
 
                 {/* Glowing notification pill for contact */}
                 {item.isContact && !isActive && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[#00FF87] rounded-full animate-ping opacity-75" />
+                  <span className="absolute top-0 right-0 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#00FF87] rounded-full animate-ping opacity-75" />
                 )}
                 {item.isContact && (
-                  <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[#00FF87] rounded-full border border-black" />
+                  <span className="absolute top-0 right-0 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#00FF87] rounded-full border border-black" />
                 )}
               </button>
             </div>
@@ -66,23 +69,22 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
         })}
 
         {/* Divider */}
-        <div className="w-5 h-[1px] bg-emerald-500/25 my-1" />
+        <div className="h-4 w-[1px] md:w-5 md:h-[1px] bg-emerald-500/25 my-auto md:my-1" />
 
         {/* Ambient Sound FX Toggle */}
         <div className="relative group flex items-center">
-          <div className="absolute right-12 px-3 py-1 bg-[#02130b] border border-[rgba(0,255,135,0.3)] text-[#a7f3d0] text-xs font-medium rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 transform translate-x-2 group-hover:translate-x-0 shadow-lg shadow-black/80">
+          <div className="hidden md:block absolute right-12 px-3 py-1 bg-[#02130b] border border-[rgba(0,255,135,0.3)] text-[#a7f3d0] text-xs font-medium rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 transform translate-x-2 group-hover:translate-x-0 shadow-lg shadow-black/80">
             {isMuted ? 'Turn Sound FX On' : 'Mute Sound FX'}
           </div>
           <button
             onClick={toggleAudio}
             aria-label="Toggle Sound Effects"
-            className="w-10 h-10 rounded-full flex items-center justify-center text-zinc-400 hover:text-[#00FF87] hover:bg-[rgba(0,255,135,0.1)] transition-all duration-300"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-zinc-400 hover:text-[#00FF87] hover:bg-[rgba(0,255,135,0.1)] transition-all duration-300"
           >
-            {isMuted ? <VolumeX size={17} /> : <Volume2 size={17} className="text-[#00FF87]" />}
+            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} className="text-[#00FF87]" />}
           </button>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
-
