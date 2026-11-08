@@ -194,9 +194,17 @@ export const HeroSection: React.FC = () => {
             </div>
 
             {/* Rotating Circular Stamp (Matching Image 2) */}
-            <div className="relative w-24 h-24 hidden sm:flex items-center justify-center shrink-0">
+            <div
+              onClick={() => {
+                soundFx.playClick();
+                const el = document.getElementById('experience');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="relative w-24 h-24 hidden sm:flex items-center justify-center shrink-0 cursor-pointer group"
+              title="Click to explore experience"
+            >
               <svg
-                className="w-full h-full animate-spin-slow text-[#00FF87] opacity-80"
+                className="w-full h-full animate-spin-slow text-[#00FF87] opacity-80 group-hover:opacity-100 transition-opacity"
                 viewBox="0 0 100 100"
               >
                 <path
@@ -210,8 +218,8 @@ export const HeroSection: React.FC = () => {
                   </textPath>
                 </text>
               </svg>
-              <div className="absolute w-8 h-8 rounded-full bg-[#032014] border border-[#00FF87]/50 flex items-center justify-center text-[#00FF87] shadow-[0_0_12px_#00FF87]">
-                <ArrowRight size={14} className="rotate-45" />
+              <div className="absolute w-8 h-8 rounded-full bg-[#032014] border border-[#00FF87]/50 flex items-center justify-center text-[#00FF87] shadow-[0_0_12px_#00FF87] group-hover:scale-110 group-hover:shadow-[0_0_20px_#00FF87] transition-all">
+                <ArrowRight size={14} className="rotate-45 group-hover:rotate-90 transition-transform duration-300" />
               </div>
             </div>
           </div>
