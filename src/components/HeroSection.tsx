@@ -13,7 +13,7 @@ import { soundFx } from '../utils/audio';
 
 export const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const photoRef = useRef<HTMLDivElement | null>(null);
+  const desktopPhotoRef = useRef<HTMLDivElement | null>(null);
   const headlineRef = useRef<HTMLHeadingElement | null>(null);
   const badgeRef = useRef<HTMLDivElement | null>(null);
   const bioRef = useRef<HTMLParagraphElement | null>(null);
@@ -34,7 +34,7 @@ export const HeroSection: React.FC = () => {
           {
             y: 30,
             opacity: 0,
-            duration: 0.9,
+            duration: 0.8,
           },
           '-=0.4'
         )
@@ -66,7 +66,7 @@ export const HeroSection: React.FC = () => {
           '-=0.4'
         )
         .from(
-          photoRef.current,
+          desktopPhotoRef.current,
           {
             scale: 0.9,
             opacity: 0,
@@ -81,14 +81,14 @@ export const HeroSection: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  // Subtle 3D mouse parallax on photo
+  // Subtle 3D mouse parallax on desktop photo
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!photoRef.current) return;
-    const rect = photoRef.current.getBoundingClientRect();
+    if (!desktopPhotoRef.current) return;
+    const rect = desktopPhotoRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    gsap.to(photoRef.current, {
+    gsap.to(desktopPhotoRef.current, {
       x: x * 0.04,
       y: y * 0.04,
       ease: 'power1.out',
@@ -97,8 +97,8 @@ export const HeroSection: React.FC = () => {
   };
 
   const handleMouseLeave = () => {
-    if (!photoRef.current) return;
-    gsap.to(photoRef.current, {
+    if (!desktopPhotoRef.current) return;
+    gsap.to(desktopPhotoRef.current, {
       x: 0,
       y: 0,
       ease: 'power2.out',
@@ -110,7 +110,7 @@ export const HeroSection: React.FC = () => {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-[92vh] pt-24 sm:pt-28 pb-14 flex items-center justify-center px-4 sm:px-6 md:px-14 overflow-hidden"
+      className="relative min-h-[92vh] pt-20 sm:pt-28 pb-12 sm:pb-16 flex items-center justify-center px-4 sm:px-6 md:px-14 overflow-hidden"
     >
       {/* Background Loki multiverse throne motif */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-15 overflow-hidden flex items-center justify-center">
@@ -134,23 +134,41 @@ export const HeroSection: React.FC = () => {
             <span>JUNIOR FULL STACK DEV • MORBI, GUJARAT</span>
           </div>
 
-          {/* Name & Title */}
-          <div ref={headlineRef} className="space-y-2 sm:space-y-3">
-            <h2 className="text-zinc-400 text-base sm:text-lg md:text-xl font-medium tracking-wide">
-              Hello, I am
-            </h2>
-            <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.15]">
-              Mehul <span className="timeline-gradient-text">Bhankhodiya</span>
-            </h1>
-            <p className="text-lg sm:text-2xl text-emerald-300/90 font-medium">
-              Building Scalable Backends & Dynamic Web Experiences
-            </p>
+          {/* Top Intro Row: On Mobile, Name and Photo sit side-by-side! */}
+          <div className="w-full flex items-center justify-between gap-4">
+            <div ref={headlineRef} className="flex-1 space-y-1 sm:space-y-3">
+              <h2 className="text-zinc-400 text-xs sm:text-base md:text-xl font-medium tracking-wide">
+                Hello, I am
+              </h2>
+              <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.15]">
+                Mehul <span className="timeline-gradient-text">Bhankhodiya</span>
+              </h1>
+              <p className="text-sm sm:text-xl md:text-2xl text-emerald-300/90 font-medium">
+                Building Scalable Backends & Dynamic Web Experiences
+              </p>
+            </div>
+
+            {/* Mobile-Only Portrait: Beside the name, NO labels covering face */}
+            <div className="lg:hidden shrink-0 relative group">
+              {/* Glowing Aura Ring */}
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-emerald-500 to-[#00FF87] opacity-60 blur-md group-hover:opacity-100 transition-opacity" />
+              <div className="relative w-24 h-28 xs:w-28 xs:h-32 sm:w-36 sm:h-40 rounded-2xl overflow-hidden border-2 border-[#00FF87] bg-[#020d08] shadow-[0_0_20px_rgba(0,255,135,0.3)]">
+                <img
+                  src="/mehul-photo.jpg"
+                  alt="Mehul Bhankhodiya"
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-1 text-center">
+                  <span className="text-[9px] font-mono text-[#00FF87] font-semibold">Junior Dev</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Bio */}
           <p
             ref={bioRef}
-            className="text-zinc-300 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl font-light"
+            className="text-zinc-300 text-xs sm:text-base md:text-lg leading-relaxed max-w-2xl font-light"
           >
             Results-driven BCA developer with 6 months of hands-on Junior Developer experience at{' '}
             <span className="text-[#00FF87] font-medium">UEST EdTech</span> building
@@ -165,11 +183,11 @@ export const HeroSection: React.FC = () => {
               <a
                 href="#experience"
                 onClick={() => soundFx.playClick()}
-                className="group flex-1 sm:flex-initial flex items-center justify-center gap-2.5 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-[#00FF87] text-black font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(0,255,135,0.4)] hover:shadow-[0_0_30px_rgba(0,255,135,0.7)] transition-all active:scale-95"
+                className="group flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-[#00FF87] text-black font-bold text-xs sm:text-sm shadow-[0_0_20px_rgba(0,255,135,0.4)] hover:shadow-[0_0_30px_rgba(0,255,135,0.7)] transition-all active:scale-95"
               >
                 <span>View Experience</span>
                 <ArrowRight
-                  size={16}
+                  size={15}
                   className="group-hover:translate-x-1 transition-transform"
                 />
               </a>
@@ -178,9 +196,9 @@ export const HeroSection: React.FC = () => {
                 href="/Mehul_Bhankhodiya_Resume.pdf"
                 download="Mehul_Bhankhodiya_Resume.pdf"
                 onClick={() => soundFx.playClick()}
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl bg-[#041a11]/90 hover:bg-[#072a1c] border border-[rgba(0,255,135,0.3)] text-emerald-300 font-semibold text-xs sm:text-sm hover:border-[#00FF87] transition-all shadow-md shadow-black"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3.5 sm:px-5 py-2.5 sm:py-3.5 rounded-xl bg-[#041a11]/90 hover:bg-[#072a1c] border border-[rgba(0,255,135,0.3)] text-emerald-300 font-semibold text-xs sm:text-sm hover:border-[#00FF87] transition-all shadow-md shadow-black"
               >
-                <Download size={15} />
+                <Download size={14} />
                 <span>Resume (PDF)</span>
               </a>
 
@@ -227,14 +245,14 @@ export const HeroSection: React.FC = () => {
           {/* Tech Badges Pill Bar */}
           <div
             ref={tagsRef}
-            className="pt-1 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-300 font-mono"
+            className="pt-1 flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-zinc-300 font-mono"
           >
             <span className="text-emerald-400 font-sans font-semibold mr-1">Arsenal:</span>
             {['PHP 8+', 'Laravel MVC', 'React.js', 'MySQL', 'Node.js', 'REST APIs'].map(
               (tech) => (
                 <span
                   key={tech}
-                  className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-md bg-[#04160f]/80 border border-emerald-500/20 text-emerald-200/90 shadow-sm"
+                  className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-md bg-[#04160f]/80 border border-emerald-500/20 text-emerald-200/90 shadow-sm"
                 >
                   {tech}
                 </span>
@@ -243,23 +261,23 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Borderless Standalone Image with Cosmic Glow & Floating Icons */}
+        {/* Right Column (Desktop Only): Large Borderless Standalone Image with Cosmic Glow & Floating Icons */}
         <div
-          className="lg:col-span-5 flex justify-center items-center relative py-4 sm:py-6"
+          className="hidden lg:flex lg:col-span-5 justify-center items-center relative py-6"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
           {/* Cosmic Nebula Glow Behind Image */}
-          <div className="absolute w-[280px] h-[280px] sm:w-[420px] sm:h-[420px] rounded-full bg-gradient-to-tr from-[#053d24]/60 via-[#00FF87]/20 to-emerald-900/30 blur-3xl pointer-events-none" />
+          <div className="absolute w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-[#053d24]/60 via-[#00FF87]/20 to-emerald-900/30 blur-3xl pointer-events-none" />
 
           {/* Orbital Tech Rings */}
-          <div className="absolute w-[260px] h-[260px] sm:w-[380px] sm:h-[380px] rounded-full border border-emerald-500/25 animate-spin-slow pointer-events-none" />
-          <div className="absolute w-[230px] h-[230px] sm:w-[320px] sm:h-[320px] rounded-full border border-dashed border-[#00FF87]/30 animate-pulse-slow pointer-events-none" />
+          <div className="absolute w-[380px] h-[380px] rounded-full border border-emerald-500/25 animate-spin-slow pointer-events-none" />
+          <div className="absolute w-[320px] h-[320px] rounded-full border border-dashed border-[#00FF87]/30 animate-pulse-slow pointer-events-none" />
 
           {/* Main Borderless Photo Container */}
           <div
-            ref={photoRef}
-            className="relative z-10 w-[240px] sm:w-[320px] md:w-[380px] flex justify-center items-end"
+            ref={desktopPhotoRef}
+            className="relative z-10 w-[380px] flex justify-center items-end"
           >
             {/* Seamless Cutout-style Image */}
             <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_bottom,black_75%,transparent_100%)]">
@@ -273,64 +291,64 @@ export const HeroSection: React.FC = () => {
             {/* Floating Tech Icon 1: React (Top Right) */}
             <div
               onMouseEnter={() => soundFx.playHover()}
-              className="absolute -top-2 right-0 sm:-right-4 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.4)] shadow-[0_0_15px_rgba(0,255,135,0.3)] flex items-center gap-1.5 sm:gap-2 animate-float pointer-events-auto cursor-pointer group"
+              className="absolute -top-2 -right-4 px-3.5 py-2 rounded-2xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.4)] shadow-[0_0_15px_rgba(0,255,135,0.3)] flex items-center gap-2 animate-float pointer-events-auto cursor-pointer group"
               style={{ animationDelay: '0s' }}
             >
-              <div className="w-5 h-5 sm:w-7 sm:h-7 rounded-lg bg-[#032918] flex items-center justify-center text-[#00FF87]">
-                <Code2 size={13} className="sm:w-4 sm:h-4" />
+              <div className="w-7 h-7 rounded-lg bg-[#032918] flex items-center justify-center text-[#00FF87]">
+                <Code2 size={16} />
               </div>
               <div className="text-left">
-                <div className="text-[10px] sm:text-[11px] font-bold text-white group-hover:text-[#00FF87]">
+                <div className="text-[11px] font-bold text-white group-hover:text-[#00FF87]">
                   React.js
                 </div>
-                <div className="hidden xs:block text-[8px] sm:text-[9px] text-emerald-400/80 font-mono">Frontend</div>
+                <div className="text-[9px] text-emerald-400/80 font-mono">Frontend</div>
               </div>
             </div>
 
             {/* Floating Tech Icon 2: Laravel (Mid Left) */}
             <div
               onMouseEnter={() => soundFx.playHover()}
-              className="absolute top-1/3 left-0 sm:-left-6 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.4)] shadow-[0_0_15px_rgba(0,255,135,0.3)] flex items-center gap-1.5 sm:gap-2 animate-float pointer-events-auto cursor-pointer group"
+              className="absolute top-1/3 -left-6 px-3.5 py-2 rounded-2xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.4)] shadow-[0_0_15px_rgba(0,255,135,0.3)] flex items-center gap-2 animate-float pointer-events-auto cursor-pointer group"
               style={{ animationDelay: '2s' }}
             >
-              <div className="w-5 h-5 sm:w-7 sm:h-7 rounded-lg bg-[#032918] flex items-center justify-center text-[#00FF87]">
-                <Server size={13} className="sm:w-4 sm:h-4" />
+              <div className="w-7 h-7 rounded-lg bg-[#032918] flex items-center justify-center text-[#00FF87]">
+                <Server size={16} />
               </div>
               <div className="text-left">
-                <div className="text-[10px] sm:text-[11px] font-bold text-white group-hover:text-[#00FF87]">
+                <div className="text-[11px] font-bold text-white group-hover:text-[#00FF87]">
                   Laravel MVC
                 </div>
-                <div className="hidden xs:block text-[8px] sm:text-[9px] text-emerald-400/80 font-mono">Backend</div>
+                <div className="text-[9px] text-emerald-400/80 font-mono">Backend</div>
               </div>
             </div>
 
             {/* Floating Tech Icon 3: MySQL (Bottom Right) */}
             <div
               onMouseEnter={() => soundFx.playHover()}
-              className="absolute bottom-8 right-0 sm:-right-4 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.4)] shadow-[0_0_15px_rgba(0,255,135,0.3)] flex items-center gap-1.5 sm:gap-2 animate-float pointer-events-auto cursor-pointer group"
+              className="absolute bottom-8 -right-4 px-3.5 py-2 rounded-2xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.4)] shadow-[0_0_15px_rgba(0,255,135,0.3)] flex items-center gap-2 animate-float pointer-events-auto cursor-pointer group"
               style={{ animationDelay: '4s' }}
             >
-              <div className="w-5 h-5 sm:w-7 sm:h-7 rounded-lg bg-[#032918] flex items-center justify-center text-[#00FF87]">
-                <Database size={13} className="sm:w-4 sm:h-4" />
+              <div className="w-7 h-7 rounded-lg bg-[#032918] flex items-center justify-center text-[#00FF87]">
+                <Database size={16} />
               </div>
               <div className="text-left">
-                <div className="text-[10px] sm:text-[11px] font-bold text-white group-hover:text-[#00FF87]">
+                <div className="text-[11px] font-bold text-white group-hover:text-[#00FF87]">
                   MySQL
                 </div>
-                <div className="hidden xs:block text-[8px] sm:text-[9px] text-emerald-400/80 font-mono">40% Optimized</div>
+                <div className="text-[9px] text-emerald-400/80 font-mono">40% Optimized</div>
               </div>
             </div>
 
             {/* Floating Tech Icon 4: MERN (Bottom Left) */}
             <div
               onMouseEnter={() => soundFx.playHover()}
-              className="absolute bottom-4 left-0 sm:-left-4 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg sm:rounded-xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.35)] shadow-[0_0_12px_rgba(0,255,135,0.25)] flex items-center gap-1.5 animate-float pointer-events-auto cursor-pointer group"
+              className="absolute bottom-4 -left-4 px-3 py-1.5 rounded-xl bg-[#041a10]/95 backdrop-blur-md border border-[rgba(0,255,135,0.35)] shadow-[0_0_12px_rgba(0,255,135,0.25)] flex items-center gap-1.5 animate-float pointer-events-auto cursor-pointer group"
               style={{ animationDelay: '1.5s' }}
             >
               <div className="w-5 h-5 rounded-md bg-[#032918] flex items-center justify-center text-[#00FF87]">
-                <Zap size={12} />
+                <Zap size={13} />
               </div>
-              <div className="text-[10px] sm:text-[11px] font-bold text-emerald-300 font-mono">
+              <div className="text-[11px] font-bold text-emerald-300 font-mono">
                 MERN Stack
               </div>
             </div>
