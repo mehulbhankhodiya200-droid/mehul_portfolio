@@ -1,0 +1,258 @@
+import React, { useState } from 'react';
+import {
+  Code2,
+  Server,
+  Database,
+  Terminal,
+  Cpu,
+  Workflow,
+  Sparkles,
+  Layers,
+} from 'lucide-react';
+import { soundFx } from '../utils/audio';
+
+export const SkillsSection: React.FC = () => {
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const categories = [
+    { id: 'all', label: 'All Technologies' },
+    { id: 'backend', label: 'Backend & APIs' },
+    { id: 'frontend', label: 'Frontend & UI' },
+    { id: 'languages', label: 'Languages' },
+    { id: 'database', label: 'Databases & Tools' },
+  ];
+
+  const skillGroups = [
+    {
+      category: 'backend',
+      name: 'Laravel MVC Framework',
+      level: 'Advanced',
+      proficiency: 92,
+      desc: 'Controllers, Routing, Middleware, Policies, Blade, Architecture',
+      icon: Server,
+      badge: 'Production Proven',
+    },
+    {
+      category: 'backend',
+      name: 'RESTful API Engineering',
+      level: 'Advanced',
+      proficiency: 90,
+      desc: 'Designed 12+ endpoints for Web & React Native apps with caching',
+      icon: Cpu,
+      badge: 'Core Focus',
+    },
+    {
+      category: 'backend',
+      name: 'Laravel Sanctum Auth',
+      level: 'Proficient',
+      proficiency: 88,
+      desc: 'Token-based authentication, CSRF protection, password resets',
+      icon: Workflow,
+      badge: 'Security',
+    },
+    {
+      category: 'backend',
+      name: 'Node.js & Express.js',
+      level: 'Proficient',
+      proficiency: 82,
+      desc: 'Asynchronous event-driven backend services and custom middleware',
+      icon: Server,
+      badge: 'Full Stack',
+    },
+    {
+      category: 'frontend',
+      name: 'React.js',
+      level: 'Advanced',
+      proficiency: 88,
+      desc: 'Hooks, Functional Components, State Management, Custom Hooks',
+      icon: Code2,
+      badge: 'Frontend Core',
+    },
+    {
+      category: 'frontend',
+      name: 'GSAP Animation & Canvas',
+      level: 'Proficient',
+      proficiency: 85,
+      desc: 'High-performance interactive animations, timeline tweens & scrolls',
+      icon: Sparkles,
+      badge: 'Interactive',
+    },
+    {
+      category: 'frontend',
+      name: 'Bootstrap 5 & Tailwind CSS',
+      level: 'Expert',
+      proficiency: 94,
+      desc: 'Responsive mobile-first layouts, modern glassmorphism & dark UIs',
+      icon: Layers,
+      badge: 'UI Design',
+    },
+    {
+      category: 'frontend',
+      name: 'HTML5 & Modern CSS3',
+      level: 'Expert',
+      proficiency: 95,
+      desc: 'Semantic structure, Flexbox, Grid, CSS animations & SVG',
+      icon: Code2,
+      badge: 'Foundation',
+    },
+    {
+      category: 'languages',
+      name: 'PHP 8+',
+      level: 'Advanced',
+      proficiency: 90,
+      desc: 'Object-Oriented Programming, PSR standards, Composer packages',
+      icon: Terminal,
+      badge: 'Primary Backend',
+    },
+    {
+      category: 'languages',
+      name: 'JavaScript (ES6+) & TypeScript',
+      level: 'Advanced',
+      proficiency: 88,
+      desc: 'Async/await, closures, typed interfaces, event-loop principles',
+      icon: Terminal,
+      badge: 'Modern JS',
+    },
+    {
+      category: 'languages',
+      name: 'Python',
+      level: 'Intermediate',
+      proficiency: 75,
+      desc: 'Scripting, backend logic, data parsing and algorithm design',
+      icon: Terminal,
+      badge: 'Polyglot',
+    },
+    {
+      category: 'languages',
+      name: 'Java',
+      level: 'Intermediate',
+      proficiency: 72,
+      desc: 'Core OOP concepts, collection frameworks and application logic',
+      icon: Terminal,
+      badge: 'OOP',
+    },
+    {
+      category: 'database',
+      name: 'MySQL Relational Database',
+      level: 'Advanced',
+      proficiency: 89,
+      desc: 'Complex joins, composite indexing, query profiling, normalization',
+      icon: Database,
+      badge: 'High Performance',
+    },
+    {
+      category: 'database',
+      name: 'MongoDB',
+      level: 'Proficient',
+      proficiency: 80,
+      desc: 'Document schemas, aggregation pipelines, MERN stack integration',
+      icon: Database,
+      badge: 'NoSQL',
+    },
+    {
+      category: 'database',
+      name: 'Git & GitHub Version Control',
+      level: 'Advanced',
+      proficiency: 90,
+      desc: 'Feature branching, pull requests, merge conflict resolution',
+      icon: Workflow,
+      badge: 'Collaboration',
+    },
+    {
+      category: 'database',
+      name: 'Postman & API Testing',
+      level: 'Advanced',
+      proficiency: 88,
+      desc: 'Automated test collections, environment variables, mock servers',
+      icon: Cpu,
+      badge: 'Testing',
+    },
+  ];
+
+  const filteredSkills =
+    activeCategory === 'all'
+      ? skillGroups
+      : skillGroups.filter((s) => s.category === activeCategory);
+
+  return (
+    <section id="skills" className="relative py-24 px-6 md:px-14">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Title */}
+        <div className="flex flex-col items-center text-center space-y-3 mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-xs font-mono text-[#00FF87]">
+            <Code2 size={14} /> TECHNICAL EXPERTISE
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+            The Multi-Stack <span className="timeline-gradient-text">Toolkit</span>
+          </h2>
+          <p className="text-zinc-400 max-w-2xl text-base">
+            From database indexing and secure authentication to dynamic client-side rendering with React and GSAP.
+          </p>
+
+          {/* Filter Pills */}
+          <div className="flex flex-wrap justify-center gap-2 pt-6">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  soundFx.playClick();
+                  setActiveCategory(cat.id);
+                }}
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${
+                  activeCategory === cat.id
+                    ? 'bg-gradient-to-r from-emerald-500 to-[#00FF87] text-black shadow-[0_0_20px_rgba(0,255,135,0.4)] scale-105 font-bold'
+                    : 'bg-[#041a10]/70 text-zinc-300 hover:text-[#00FF87] border border-emerald-500/20 hover:border-emerald-500/50'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Skills Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {filteredSkills.map((skill, idx) => {
+            const Icon = skill.icon;
+            return (
+              <div
+                key={idx}
+                onMouseEnter={() => soundFx.playHover()}
+                className="glass-panel p-5 rounded-2xl glass-panel-hover transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#032014] border border-emerald-500/30 flex items-center justify-center text-[#00FF87] group-hover:scale-110 group-hover:border-[#00FF87] transition-all shadow-[0_0_10px_rgba(0,255,135,0.15)]">
+                      <Icon size={20} />
+                    </div>
+                    <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-950/80 text-[#00FF87] border border-emerald-500/30">
+                      {skill.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-white font-bold text-base mb-1 group-hover:text-[#00FF87] transition-colors">
+                    {skill.name}
+                  </h3>
+                  <p className="text-zinc-400 text-xs leading-relaxed mb-4">
+                    {skill.desc}
+                  </p>
+                </div>
+
+                <div className="pt-2 border-t border-emerald-500/15 flex items-center justify-between text-xs font-mono text-zinc-300">
+                  <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00FF87] shadow-[0_0_8px_#00FF87]" />
+                    {skill.level}
+                  </span>
+                  <span className="text-zinc-500 text-[11px] group-hover:text-emerald-400 transition-colors">
+                    Production Ready
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
